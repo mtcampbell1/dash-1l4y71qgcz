@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Michael">
+<meta name="theme-color" content="#0E2041">
+<meta name="robots" content="noindex, nofollow">
+<meta name="googlebot" content="noindex, nofollow">
+<title>Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Wix+Madefor+Display:wght@500;600;700&family=Wix+Madefor+Text:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0E2041;
+    --trust: #4B7B96;
+    --sage: #4E7A59;
+    --teal: #1360B2;
+    --bg: #F7F6F2;
+    --stone: #E8E8E8;
+    --ink: #2D2F33;
+    --slate: #5D646E;
+    --amber: #C79A2E;
+    --ember: #B45A3E;
+    --white: #ffffff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Wix Madefor Text', -apple-system, system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.5;
+    padding: 20px 16px 80px;
+    max-width: 1280px;
+    margin: 0 auto;
+    -webkit-font-smoothing: antialiased;
+  }
+  @media (min-width: 768px) { body { padding: 32px 28px 64px; } }
+
+  h1, h2, h3, h4 { font-family: 'Wix Madefor Display', sans-serif; color: var(--navy); }
+
+  /* HEADER */
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--stone);
+    margin-bottom: 24px;
+  }
+  .greeting h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+  @media (min-width: 768px) { .greeting h1 { font-size: 30px; } }
+  .greeting .meta { color: var(--slate); font-size: 13px; margin-top: 2px; }
+
+  /* TOGGLE */
+  .toggle {
+    display: inline-flex;
+    background: var(--white);
+    border: 1px solid var(--stone);
+    border-radius: 999px;
+    padding: 3px;
+    gap: 2px;
+  }
+  .toggle button {
+    font-family: 'Wix Madefor Display', sans-serif;
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 7px 12px;
+    border: none;
+    background: transparent;
+    border-radius: 999px;
+    cursor: pointer;
+    color: var(--slate);
+    transition: all 0.15s;
+  }
+  @media (min-width: 768px) { .toggle button { font-size: 13px; padding: 8px 16px; } }
+  .toggle button:hover { color: var(--navy); }
+  body[data-view="both"] .toggle button[data-view="both"],
+  body[data-view="business"] .toggle button[data-view="business"],
+  body[data-view="personal"] .toggle button[data-view="personal"] {
+    background: var(--navy);
+    color: white;
+  }
+
+  /* VIEW FILTER */
+  body[data-view="business"] [data-scope="personal"]:not(.keep) { display: none !important; }
+  body[data-view="personal"] [data-scope="business"]:not(.keep) { display: none !important; }
+
+  /* SECTIONS */
+  section { margin-bottom: 28px; }
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .section-header h2 {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--slate);
+  }
+  .section-header .hint { font-size: 11px; color: var(--slate); font-style: italic; }
+  .scope-badge {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+    display: inline-block;
+  }
+  .scope-badge.business { background: #E8F0F4; color: var(--teal); }
+  .scope-badge.personal { background: #EDF2E9; color: var(--sage); }
+
+  /* TOP 3 QUEUE */
+  .top3-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  @media (min-width: 768px) {
+    .top3-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  }
+  .queue-card {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 18px 20px 18px;
+    border: 1px solid var(--stone);
+    position: relative;
+    transition: all 0.25s ease;
+    cursor: pointer;
+    min-height: 160px;
+    display: flex;
+    flex-direction: column;
+    user-select: none;
+  }
+  .queue-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(14,32,65,0.08); }
+  .queue-card:active { transform: scale(0.98); }
+  .queue-card .num {
+    font-family: 'Wix Madefor Display', sans-serif;
+    font-weight: 700;
+    font-size: 48px;
+    color: var(--trust);
+    line-height: 0.9;
+    opacity: 0.22;
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    transition: color 0.25s;
+  }
+  .queue-card[data-scope="personal"] .num { color: var(--sage); }
+  .queue-card .scope-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--trust);
+    display: inline-block;
+    margin-right: 6px;
+  }
+  .queue-card[data-scope="personal"] .scope-dot { background: var(--sage); }
+  .queue-card .scope-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-bottom: 8px;
+  }
+  .queue-card h3 {
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    padding-right: 40px;
+    line-height: 1.25;
+  }
+  .queue-card p { font-size: 13px; color: var(--slate); margin-bottom: 10px; flex: 1; }
+  .queue-card .action-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--stone);
+  }
+  .queue-card .action {
+    font-family: 'Wix Madefor Display', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--trust);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .queue-card .action:hover { text-decoration: underline; }
+  .queue-card .check-btn {
+    font-family: 'Wix Madefor Display', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    background: var(--sage);
+    color: white;
+    border: none;
+    border-radius: 999px;
+    padding: 6px 14px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .queue-card .check-btn:hover { background: #3E6349; transform: scale(1.05); }
+  .queue-card .check-btn:active { transform: scale(0.95); }
+
+  .all-done-msg {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #EDF5EF 0%, #E8F0F4 100%);
+    border-radius: 16px;
+    font-size: 16px;
+    color: var(--sage);
+    font-weight: 500;
+  }
+  .all-done-msg .emoji { font-size: 36px; display: block; margin-bottom: 8px; }
+
+  .low-energy {
+    background: #FDF6E3;
+    border: 1px solid #F3E4B8;
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-top: 14px;
+    font-size: 13px;
+    color: #7A5E18;
+  }
+  .low-energy strong { color: #5C470F; }
+
+  /* DONE TODAY STRIP */
+  .done-today {
+    margin-top: 16px;
+    padding: 12px 16px;
+    background: #EDF5EF;
+    border-radius: 10px;
+    border: 1px solid #C9E1CD;
+  }
+  .done-today.empty { display: none; }
+  .done-today-header {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 8px;
+  }
+  .done-today-list { display: flex; flex-direction: column; gap: 6px; }
+  .done-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--slate);
+  }
+  .done-item .done-text { text-decoration: line-through; flex: 1; }
+  .done-item .undo-btn {
+    font-size: 11px;
+    background: transparent;
+    border: none;
+    color: var(--trust);
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
+  .done-item .undo-btn:hover { background: var(--white); }
+
+  /* SPLIT COLUMN */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  @media (min-width: 768px) {
+    .two-col { grid-template-columns: 1fr 1fr; gap: 16px; }
+  }
+
+  .card {
+    background: var(--white);
+    border-radius: 14px;
+    padding: 18px 20px;
+    border: 1px solid var(--stone);
+  }
+  .card h3 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--navy);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card .icon { font-size: 16px; }
+
+  /* PEOPLE */
+  .people-list { display: flex; flex-direction: column; gap: 8px; }
+  .person-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+    padding: 10px 12px;
+    background: var(--bg);
+    border-radius: 10px;
+  }
+  .person-row .name { font-weight: 600; font-size: 14px; color: var(--navy); }
+  .person-row .next { font-size: 12px; color: var(--slate); margin-top: 2px; }
+  .person-row .due {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    align-self: center;
+    padding: 4px 8px;
+    border-radius: 6px;
+    white-space: nowrap;
+  }
+  .due.today { background: #FDECE8; color: var(--ember); }
+  .due.soon { background: #FDF6E3; color: var(--amber); }
+  .due.later { background: #EFF2F1; color: var(--slate); }
+  .placeholder {
+    font-size: 12px;
+    font-style: italic;
+    color: var(--slate);
+    text-align: center;
+    padding: 10px;
+    border: 1px dashed var(--stone);
+    border-radius: 10px;
+  }
+
+  /* CHECKLISTS */
+  .week-block { margin-bottom: 14px; }
+  .week-block:last-child { margin-bottom: 0; }
+  .week-block-title {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .week-block[data-scope="business"] .week-block-title { color: var(--teal); }
+  .week-block[data-scope="personal"] .week-block-title { color: var(--sage); }
+
+  .check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 8px;
+    font-size: 14px;
+    line-height: 1.4;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s;
+    min-height: 40px;
+  }
+  .check-item:hover { background: var(--bg); }
+  .check-item .box {
+    width: 20px; height: 20px;
+    border: 1.5px solid var(--slate);
+    border-radius: 5px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    transition: all 0.2s;
+    background-size: 20px 20px;
+  }
+  .check-item.done .box {
+    background-color: var(--sage);
+    border-color: var(--sage);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5 10l3 3 7-7' stroke='white' stroke-width='2.2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  }
+  .check-item.done .text { text-decoration: line-through; color: var(--slate); }
+  .check-item .hint {
+    display: block;
+    font-size: 11px;
+    color: var(--slate);
+    margin-top: 2px;
+  }
+
+  /* PROGRESS STRIPS */
+  .progress-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  @media (min-width: 768px) { .progress-grid { grid-template-columns: 1fr 1fr; gap: 16px; } }
+  .progress-card { padding: 16px 20px; border-radius: 14px; }
+  .progress-card.done { background: #EDF5EF; border: 1px solid #C9E1CD; }
+  .progress-card.stalled { background: #FDF3EC; border: 1px solid #F5D9C4; }
+  .progress-card h3 {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .progress-card.done h3 { color: var(--sage); }
+  .progress-card.stalled h3 { color: var(--ember); }
+  .progress-card ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .progress-card li { font-size: 13px; line-height: 1.4; padding-left: 20px; position: relative; }
+  .progress-card li::before {
+    content: "✓";
+    color: var(--sage);
+    font-weight: 700;
+    position: absolute;
+    left: 0;
+  }
+  .progress-card.stalled li::before { content: "⏸"; color: var(--ember); }
+
+  /* LIVING PROJECTS GRID */
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 8px;
+  }
+  @media (min-width: 768px) {
+    .project-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+  }
+  .project-pill {
+    background: var(--white);
+    border: 1px solid var(--stone);
+    border-radius: 10px;
+    padding: 11px 13px;
+    font-size: 13px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .project-pill .name { font-weight: 600; color: var(--navy); font-size: 13px; }
+  .project-pill .path { font-family: 'SF Mono', Monaco, Consolas, monospace; font-size: 10px; color: var(--slate); }
+  .project-pill .status {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-top: 3px;
+    align-self: flex-start;
+  }
+  .status.active { background: #EDF5EF; color: var(--sage); }
+  .status.paused { background: #FDF3EC; color: var(--ember); }
+  .status.onhold { background: #F5EEE8; color: #8A6A3E; }
+  .status.maintenance { background: #EFF2F1; color: var(--slate); }
+  .status.building { background: #E8F0F4; color: var(--teal); }
+
+  /* CONTROL PANEL */
+  .links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 8px;
+  }
+  @media (min-width: 768px) {
+    .links-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+  }
+  .link-group { margin-bottom: 14px; }
+  .link-group-title {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-bottom: 6px;
+  }
+  .link-tile {
+    display: block;
+    background: var(--white);
+    border: 1px solid var(--stone);
+    border-radius: 10px;
+    padding: 9px 12px;
+    text-decoration: none;
+    color: var(--navy);
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.15s;
+    min-height: 44px;
+  }
+  .link-tile:hover {
+    border-color: var(--trust);
+    background: #F0F5F8;
+    transform: translateY(-1px);
+  }
+  .link-tile .sub { font-size: 10px; color: var(--slate); font-weight: 400; margin-top: 2px; }
+
+  /* CREDS */
+  .creds {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    padding: 14px 18px;
+    background: var(--navy);
+    color: white;
+    border-radius: 12px;
+    font-size: 12px;
+  }
+  .creds .item { display: flex; flex-direction: column; gap: 2px; }
+  .creds .label {
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #8FA6C4;
+  }
+  .creds .value { font-weight: 600; font-family: 'Wix Madefor Display', sans-serif; font-size: 13px; word-break: break-word; }
+
+  /* INBOX */
+  .inbox-card {
+    background: #FDF6E3;
+    border: 1px solid #F3E4B8;
+    border-radius: 12px;
+    padding: 14px 18px;
+  }
+  .inbox-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .inbox-card li {
+    font-size: 12px;
+    color: #5C470F;
+    padding-left: 16px;
+    position: relative;
+    line-height: 1.45;
+  }
+  .inbox-card li::before { content: "•"; position: absolute; left: 0; font-weight: 700; }
+
+  /* HOW-TO */
+  .howto {
+    background: linear-gradient(135deg, #E8F0F4 0%, #EDF2E9 100%);
+    border: 1px solid #D4E0E6;
+    border-radius: 14px;
+    padding: 18px 20px;
+  }
+  .howto h3 { font-size: 14px; margin-bottom: 8px; }
+  .howto > p { font-size: 12px; color: var(--slate); margin-bottom: 10px; }
+  .howto-cmds { display: flex; flex-direction: column; gap: 6px; }
+  .howto-cmd {
+    display: flex;
+    gap: 10px;
+    font-size: 12px;
+    align-items: baseline;
+    flex-wrap: wrap;
+  }
+  .howto-cmd code {
+    background: var(--white);
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-family: 'SF Mono', Monaco, Consolas, monospace;
+    font-weight: 600;
+    color: var(--navy);
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  .howto-cmd .desc { color: var(--slate); font-size: 12px; }
+</style>
+</head>
+<body data-view="both">
+
+<header>
+  <div class="greeting">
+    <h1 id="greeting-text">Good morning, Michael.</h1>
+    <div class="meta" id="greeting-meta">Thursday, April 16, 2026 — Week 16</div>
+  </div>
+  <div class="toggle">
+    <button data-view="both">Both</button>
+    <button data-view="business">Business</button>
+    <button data-view="personal">Personal</button>
+  </div>
+</header>
+
+<!-- TODAY -->
+<section>
+  <div class="section-header">
+    <h2>🎯 Today — Top 3</h2>
+    <span class="hint">tap to check off · next one slides in</span>
+  </div>
+  <div class="top3-grid" id="top3-grid"></div>
+  <div class="low-energy">
+    <strong>Low-energy day?</strong> Just do the one with the smallest step. Any win counts.
+  </div>
+  <div class="done-today empty" id="done-today">
+    <div class="done-today-header">✓ Done today</div>
+    <div class="done-today-list" id="done-today-list"></div>
+  </div>
+</section>
+
+<!-- PEOPLE + WEEK -->
+<section>
+  <div class="two-col">
+    <div class="card">
+      <h3><span class="icon">👥</span> People — next move from you</h3>
+      <div class="people-list" id="people-list"></div>
+    </div>
+
+    <div class="card keep">
+      <h3><span class="icon">📊</span> This week</h3>
+      <div class="week-block" data-scope="business">
+        <div class="week-block-title">Business</div>
+        <div class="week-checklist" id="week-business"></div>
+      </div>
+      <div class="week-block" data-scope="personal">
+        <div class="week-block-title">Personal</div>
+        <div class="week-checklist" id="week-personal"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRESS -->
+<section>
+  <div class="section-header">
+    <h2>📅 Recent — what moved</h2>
+  </div>
+  <div class="progress-grid">
+    <div class="progress-card done">
+      <h3>Done (last 2 weeks)</h3>
+      <ul>
+        <li>Metricool set up — FB Page, IG pro, TikTok, YouTube</li>
+        <li>Nextdoor professional page + intro</li>
+        <li>Accepted as OutCare Affirming Provider</li>
+        <li>OutCare campaign drafted — 5 platforms + graphic</li>
+        <li>Dashboard v1 built</li>
+      </ul>
+    </div>
+    <div class="progress-card stalled">
+      <h3>Stalled — needs energy or decision</h3>
+      <ul>
+        <li data-scope="business">Personal Google Business Profile — video verification</li>
+        <li data-scope="personal">Uber — 7-10 days since last drive</li>
+        <li data-scope="personal">eufyMake E1 UV printer — no product chosen yet</li>
+        <li data-scope="personal">Finances — no tracking system yet</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- LIVING PROJECTS -->
+<section>
+  <div class="section-header">
+    <h2>🗂️ Living projects</h2>
+    <span class="hint">where every thing lives</span>
+  </div>
+
+  <div data-scope="business" style="margin-bottom: 18px;">
+    <div style="margin-bottom: 8px;"><span class="scope-badge business">Business</span></div>
+    <div class="project-grid">
+      <div class="project-pill">
+        <span class="name">Marketing (this)</span>
+        <span class="path">~/claryt-marketing</span>
+        <span class="status active">Active</span>
+      </div>
+      <div class="project-pill">
+        <span class="name">OutCare campaign</span>
+        <span class="path">content/posts/2026-04-outcare...</span>
+        <span class="status active">Drafted</span>
+      </div>
+      <div class="project-pill">
+        <span class="name">ClaryT Website</span>
+        <span class="path">Wix</span>
+        <span class="status maintenance">Live</span>
+      </div>
+      <div class="project-pill">
+        <span class="name">ClaryT CRM</span>
+        <span class="path">~/claryt-crm</span>
+        <span class="status maintenance">Built, idle</span>
+      </div>
+      <div class="project-pill">
+        <span class="name">Lead gen app</span>
+        <span class="path">~/claryt-leadgen</span>
+        <span class="status maintenance">Built</span>
+      </div>
+      <div class="project-pill">
+        <span class="name">PracticeQ (EHR)</span>
+        <span class="path">intakeq.com</span>
+        <span class="status building">In setup</span>
+      </div>
+      <div class="project-pill">
+        <span class="name">LCSW supervision</span>
+        <span class="path">Brent Metcalf</span>
+        <span class="status active">Ongoing</span>
+      </div>
+    </div>
+  </div>
+
+  <div data-scope="personal">
+    <div style="margin-bottom: 8px;"><span class="scope-badge personal">Personal</span></div>
+    <div class="project-grid">
+      <div class="project-pill">
+        <span class="name">Personal marketing</span>
+        <span class="path">~/Personal Marketing</span>
+        <span class="status active">Active</span>
+      </div>
+      <div class="project-pill">
+        <span class="name">Uber driving</span>
+        <span class="path">Uber Driver app</span>
+        <span class="status paused">Paused 7-10d</span>
+      </div>
+      <div class="project-pill">
+        <span class="name">eufyMake E1 UV printer</span>
+        <span class="path">Physical + product TBD</span>
+        <span class="status paused">Needs product pick</span>
+      </div>
+      <div class="project-pill">
+        <span class="name">Finances</span>
+        <span class="path">TBD — no system yet</span>
+        <span class="status building">Building</span>
+      </div>
+      <div class="project-pill">
+        <span class="name">Disaster PWA (Red Cross)</span>
+        <span class="path">~/disaster-relief-pwa</span>
+        <span class="status onhold">ARC on hold</span>
+      </div>
+      <div class="project-pill">
+        <span class="name">Sven (AI voice)</span>
+        <span class="path">~/sven</span>
+        <span class="status building">In progress</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTROL PANEL -->
+<section>
+  <div class="section-header">
+    <h2>🔗 Control panel</h2>
+    <span class="hint">one click to every place</span>
+  </div>
+
+  <div class="link-group" data-scope="business">
+    <div class="link-group-title">Social / Content</div>
+    <div class="links-grid">
+      <a class="link-tile" href="https://app.metricool.com/" target="_blank">Metricool<div class="sub">Schedule + analytics</div></a>
+      <a class="link-tile" href="https://business.facebook.com/" target="_blank">Meta Business<div class="sub">ClaryT FB/IG</div></a>
+      <a class="link-tile" href="https://nextdoor.com/pages/michael-campbell-msw-lmsw/" target="_blank">Nextdoor<div class="sub">Business page</div></a>
+      <a class="link-tile" href="https://www.canva.com/" target="_blank">Canva<div class="sub">Design</div></a>
+      <a class="link-tile" href="https://www.facebook.com/ClaryTWellness" target="_blank">FB — ClaryT<div class="sub">Company page</div></a>
+      <a class="link-tile" href="https://www.facebook.com/michaelcampbellmsw/" target="_blank">FB — Michael<div class="sub">Professional page</div></a>
+    </div>
+  </div>
+
+  <div class="link-group" data-scope="business">
+    <div class="link-group-title">Business ops</div>
+    <div class="links-grid">
+      <a class="link-tile" href="https://app.asana.com/" target="_blank">Asana<div class="sub">Tasks</div></a>
+      <a class="link-tile" href="https://clarytwellness.intakeq.com/" target="_blank">PracticeQ<div class="sub">EHR</div></a>
+      <a class="link-tile" href="https://manage.wix.com/" target="_blank">Wix Dashboard<div class="sub">Website</div></a>
+      <a class="link-tile" href="https://business.google.com/" target="_blank">GBP<div class="sub">Google Business</div></a>
+      <a class="link-tile" href="https://mail.google.com/" target="_blank">Gmail (work)<div class="sub">clarytwellness.com</div></a>
+      <a class="link-tile" href="https://nppes.cms.hhs.gov/" target="_blank">NPPES<div class="sub">NPI registry</div></a>
+    </div>
+  </div>
+
+  <div class="link-group" data-scope="personal">
+    <div class="link-group-title">Personal</div>
+    <div class="links-grid">
+      <a class="link-tile" href="https://driver.uber.com/" target="_blank">Uber Driver<div class="sub">Rides</div></a>
+      <a class="link-tile" href="https://mail.google.com/" target="_blank">Gmail (personal)<div class="sub">mtcampbell1</div></a>
+      <a class="link-tile" href="https://www.etsy.com/" target="_blank">Etsy<div class="sub">eufyMake listings</div></a>
+      <a class="link-tile" href="https://www.facebook.com/mtcampbell1/" target="_blank">FB — Personal<div class="sub">Profile (manual)</div></a>
+    </div>
+  </div>
+</section>
+
+<!-- CREDS -->
+<section data-scope="business">
+  <div class="creds">
+    <div class="item"><span class="label">NPI</span><span class="value">1306638945</span></div>
+    <div class="item"><span class="label">License</span><span class="value">LMSW #15881</span></div>
+    <div class="item"><span class="label">Phone</span><span class="value">(615) 422-7123</span></div>
+    <div class="item"><span class="label">OutCare</span><span class="value">Affirming Provider</span></div>
+  </div>
+</section>
+
+<!-- HOW-TO -->
+<section class="keep">
+  <div class="howto">
+    <h3>🌱 How to use this dashboard</h3>
+    <p>Claude maintains this file. You don't. Tap cards to check off tasks. Open Claude in the project and say:</p>
+    <div class="howto-cmds">
+      <div class="howto-cmd"><code>good morning</code><span class="desc">refresh today's top 3</span></div>
+      <div class="howto-cmd"><code>I talked to [name]</code><span class="desc">log the person + next move</span></div>
+      <div class="howto-cmd"><code>what needs my attention?</code><span class="desc">cut the noise, name 1-3 things</span></div>
+      <div class="howto-cmd"><code>add task: [thing]</code><span class="desc">drop a new task into the queue</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- INBOX -->
+<section class="keep">
+  <div class="section-header">
+    <h2>📝 Inbox — half-thoughts</h2>
+    <span class="hint">Claude sorts these later</span>
+  </div>
+  <div class="inbox-card">
+    <ul>
+      <li>eufyMake — what products will sell? (brainstorm needed)</li>
+      <li>Is ClaryT paying as 1099? (affects finances tracking)</li>
+      <li>Personal brand — pick a "pillar" eventually</li>
+    </ul>
+  </div>
+</section>
+
+<script>
+  // =====================
+  // TASK QUEUE (edit here to add/reorder)
+  // =====================
+  const taskQueue = [
+    {
+      id: 'uber-block-wk16',
+      scope: 'personal',
+      title: 'Uber: one 2-3 hour block',
+      desc: "You've been off 7-10 days. Money is time-sensitive. Any block beats no block.",
+      action: { text: 'Open Uber Driver', url: 'https://driver.uber.com' }
+    },
+    {
+      id: 'monica-outcare-fb',
+      scope: 'business',
+      title: 'Send Monica the OutCare FB options',
+      desc: '3 stance versions ready. Forward them, let her pick. 2 minutes.',
+      action: { text: 'Open the file', url: 'content/posts/2026-04-outcare-affirming-provider/facebook-claryt-options.md' }
+    },
+    {
+      id: 'outcare-ig-nextdoor',
+      scope: 'business',
+      title: 'Post OutCare to pro IG + Nextdoor',
+      desc: 'Drafts + graphic ready. Copy-paste job. 10 minutes.',
+      action: { text: 'Open campaign', url: 'content/posts/2026-04-outcare-affirming-provider/' }
+    },
+    {
+      id: 'eufymake-pick-product',
+      scope: 'personal',
+      title: 'eufyMake — pick 1 test product',
+      desc: "Just one. Don't research — pick something you'd print anyway. Claude can help brainstorm.",
+      action: { text: 'Ask Claude to brainstorm', url: '#' }
+    },
+    {
+      id: 'finances-snapshot',
+      scope: 'personal',
+      title: 'Finances — 10-min snapshot',
+      desc: 'Open your bank app. Write down balance + any pending bills. That\'s it. System comes later.',
+      action: null
+    },
+    {
+      id: 'gbp-decide',
+      scope: 'business',
+      title: 'Decide: personal GBP or skip',
+      desc: "My rec: skip for now. But make the call so it stops taking mental space.",
+      action: null
+    }
+  ];
+
+  const weekTasks = {
+    business: [
+      { id: 'w-outcare-ships', text: 'OutCare ships on all platforms', hint: 'waiting on Monica for FB' },
+      { id: 'w-gbp-decide', text: 'Decide on personal GBP', hint: 'recommendation: skip for now' },
+      { id: 'w-nextdoor-first', text: 'Nextdoor first post', hint: 'OutCare works as the first one' },
+    ],
+    personal: [
+      { id: 'w-uber-target', text: 'Uber: hit target hours this week', hint: 'set target when you talk to Claude' },
+      { id: 'w-eufymake-test', text: 'eufyMake: test-print 1 product', hint: 'can brainstorm with Claude' },
+      { id: 'w-finances-baseline', text: 'Finances: capture this week\'s baseline', hint: '10-min snapshot' },
+      { id: 'w-crosspost-personal', text: 'Cross-post OutCare to personal brand', hint: '~/Personal Marketing' },
+    ]
+  };
+
+  const peopleList = [
+    { name: 'Monica Clary', scope: 'business', next: 'Forward OutCare FB stance options', due: 'today' },
+    { name: 'OutCare Health (@outcarehealth)', scope: 'business', next: 'Tag them when IG post goes live', due: 'soon' },
+    { name: 'Brent Metcalf', scope: 'business', next: 'LCSW supervision — next check-in', due: 'later' },
+  ];
+
+  // =====================
+  // STATE
+  // =====================
+  const STORAGE_KEY = 'claryt-dashboard-v1';
+  function getState() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+    catch { return {}; }
+  }
+  function setState(s) { localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); }
+  function getDone() { return getState().done || {}; }
+  function markDone(id) {
+    const s = getState();
+    s.done = s.done || {};
+    s.done[id] = new Date().toISOString();
+    setState(s);
+  }
+  function unmarkDone(id) {
+    const s = getState();
+    if (s.done) delete s.done[id];
+    setState(s);
+  }
+  function isDoneToday(id) {
+    const done = getDone();
+    if (!done[id]) return false;
+    const d = new Date(done[id]);
+    const today = new Date();
+    return d.toDateString() === today.toDateString();
+  }
+
+  // =====================
+  // RENDER
+  // =====================
+  function renderTop3() {
+    const grid = document.getElementById('top3-grid');
+    const view = document.body.dataset.view;
+    const visible = taskQueue.filter(t => {
+      if (view !== 'both' && t.scope !== view) return false;
+      return !isDoneToday(t.id);
+    });
+    const top3 = visible.slice(0, 3);
+
+    if (top3.length === 0) {
+      grid.innerHTML = `<div class="all-done-msg"><span class="emoji">🌿</span>All caught up. Nice work.</div>`;
+      return;
+    }
+
+    grid.innerHTML = top3.map((t, i) => `
+      <div class="queue-card" data-scope="${t.scope}" data-id="${t.id}">
+        <div class="num">${i + 1}</div>
+        <div class="scope-label"><span class="scope-dot"></span>${t.scope}</div>
+        <h3>${t.title}</h3>
+        <p>${t.desc}</p>
+        <div class="action-row">
+          ${t.action ? `<a class="action" href="${t.action.url}" ${t.action.url.startsWith('http') ? 'target="_blank"' : ''}>${t.action.text} →</a>` : '<span></span>'}
+          <button class="check-btn" data-check="${t.id}">✓ Done</button>
+        </div>
+      </div>
+    `).join('');
+
+    grid.querySelectorAll('[data-check]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const id = btn.dataset.check;
+        const card = btn.closest('.queue-card');
+        card.style.transition = 'all 0.35s ease';
+        card.style.transform = 'scale(0.9)';
+        card.style.opacity = '0';
+        setTimeout(() => {
+          markDone(id);
+          renderTop3();
+          renderDoneToday();
+        }, 300);
+      });
+    });
+  }
+
+  function renderDoneToday() {
+    const view = document.body.dataset.view;
+    const done = getDone();
+    const items = taskQueue.filter(t => {
+      if (!isDoneToday(t.id)) return false;
+      if (view !== 'both' && t.scope !== view) return false;
+      return true;
+    });
+
+    const container = document.getElementById('done-today');
+    const list = document.getElementById('done-today-list');
+    if (items.length === 0) {
+      container.classList.add('empty');
+      return;
+    }
+    container.classList.remove('empty');
+    list.innerHTML = items.map(t => `
+      <div class="done-item">
+        <span class="done-text">${t.title}</span>
+        <button class="undo-btn" data-undo="${t.id}">undo</button>
+      </div>
+    `).join('');
+    list.querySelectorAll('[data-undo]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        unmarkDone(btn.dataset.undo);
+        renderTop3();
+        renderDoneToday();
+      });
+    });
+  }
+
+  function renderWeek() {
+    ['business', 'personal'].forEach(scope => {
+      const container = document.getElementById(`week-${scope}`);
+      container.innerHTML = weekTasks[scope].map(t => `
+        <div class="check-item ${isDoneToday(t.id) ? 'done' : ''}" data-week="${t.id}">
+          <span class="box"></span>
+          <span>
+            <span class="text">${t.text}</span>
+            <span class="hint">${t.hint}</span>
+          </span>
+        </div>
+      `).join('');
+      container.querySelectorAll('[data-week]').forEach(el => {
+        el.addEventListener('click', () => {
+          const id = el.dataset.week;
+          if (isDoneToday(id)) unmarkDone(id);
+          else markDone(id);
+          renderWeek();
+        });
+      });
+    });
+  }
+
+  function renderPeople() {
+    const view = document.body.dataset.view;
+    const visible = peopleList.filter(p => view === 'both' || p.scope === view);
+    const container = document.getElementById('people-list');
+    if (visible.length === 0) {
+      container.innerHTML = `<div class="placeholder">Tell Claude "I talked to [name]" — I'll log it here.</div>`;
+      return;
+    }
+    container.innerHTML = visible.map(p => `
+      <div class="person-row">
+        <div>
+          <div class="name">${p.name}</div>
+          <div class="next">${p.next}</div>
+        </div>
+        <span class="due ${p.due}">${p.due === 'today' ? 'Today' : p.due === 'soon' ? 'This week' : 'Ongoing'}</span>
+      </div>
+    `).join('') + `<div class="placeholder">Tell Claude "I talked to [name]" — I'll log it here.</div>`;
+  }
+
+  function renderGreeting() {
+    const now = new Date();
+    const hour = now.getHours();
+    let greet = 'Good morning';
+    if (hour >= 12 && hour < 17) greet = 'Good afternoon';
+    else if (hour >= 17) greet = 'Good evening';
+    document.getElementById('greeting-text').textContent = `${greet}, Michael.`;
+    const opts = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
+    const d = now.toLocaleDateString('en-US', opts);
+    const wk = Math.ceil((((now - new Date(now.getFullYear(), 0, 1)) / 86400000) + 1) / 7);
+    document.getElementById('greeting-meta').textContent = `${d} — Week ${wk}`;
+  }
+
+  function renderAll() {
+    renderTop3();
+    renderDoneToday();
+    renderWeek();
+    renderPeople();
+  }
+
+  // =====================
+  // INIT
+  // =====================
+  const toggle = document.querySelector('.toggle');
+  toggle.addEventListener('click', (e) => {
+    if (e.target.tagName !== 'BUTTON') return;
+    const view = e.target.dataset.view;
+    document.body.dataset.view = view;
+    localStorage.setItem('dashboard-view', view);
+    renderAll();
+  });
+  const saved = localStorage.getItem('dashboard-view');
+  if (saved) document.body.dataset.view = saved;
+
+  renderGreeting();
+  renderAll();
+  // Refresh greeting every hour
+  setInterval(renderGreeting, 60 * 60 * 1000);
+</script>
+
+</body>
+</html>
