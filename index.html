@@ -122,6 +122,135 @@
   .scope-badge.business { background: #E8F0F4; color: var(--teal); }
   .scope-badge.personal { background: #EDF2E9; color: var(--sage); }
 
+  /* 30-DAY SPRINT */
+  .sprint-card {
+    background: linear-gradient(135deg, var(--navy) 0%, #1B3968 100%);
+    color: white;
+    border-radius: 16px;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .sprint-card::before {
+    content: '';
+    position: absolute;
+    right: -60px; top: -60px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(78,122,89,0.18), transparent 70%);
+    pointer-events: none;
+  }
+  .sprint-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .sprint-title {
+    font-family: 'Wix Madefor Display', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: white;
+  }
+  .sprint-title .emoji { margin-right: 6px; }
+  .sprint-days {
+    font-size: 12px;
+    color: #8FA6C4;
+    font-weight: 500;
+  }
+  .sprint-body {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    align-items: center;
+    position: relative;
+  }
+  @media (min-width: 768px) {
+    .sprint-body { grid-template-columns: auto 1fr auto; gap: 24px; }
+  }
+  .sprint-count {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    font-family: 'Wix Madefor Display', sans-serif;
+    font-weight: 700;
+  }
+  .sprint-count .big {
+    font-size: 48px;
+    line-height: 1;
+    color: white;
+  }
+  .sprint-count .slash { font-size: 28px; color: #8FA6C4; }
+  .sprint-count .target {
+    font-size: 20px;
+    color: #8FA6C4;
+  }
+  .sprint-count .label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #8FA6C4;
+    margin-left: 10px;
+    align-self: center;
+  }
+  .sprint-middle {
+    font-size: 13px;
+    color: #D4DCE8;
+    line-height: 1.4;
+  }
+  .sprint-middle .focus-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #8FA6C4;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .sprint-middle .focus-text { color: white; font-weight: 500; }
+  .sprint-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .sprint-btn {
+    font-family: 'Wix Madefor Display', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 10px 16px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .sprint-btn.primary { background: var(--sage); color: white; }
+  .sprint-btn.primary:hover { background: #3E6349; transform: scale(1.04); }
+  .sprint-btn.secondary {
+    background: transparent;
+    color: #8FA6C4;
+    border: 1px solid #3D4E6E;
+  }
+  .sprint-btn.secondary:hover { color: white; border-color: white; }
+  .sprint-progress {
+    height: 6px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-top: 12px;
+  }
+  .sprint-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--sage) 0%, #6B9A75 100%);
+    border-radius: 3px;
+    transition: width 0.5s ease;
+  }
+
   /* TOP 3 QUEUE */
   .top3-grid {
     display: grid;
@@ -672,11 +801,6 @@
         <span class="name">ClaryT CRM</span>
         <span class="path">~/claryt-crm</span>
         <span class="status maintenance">Built, idle</span>
-      </div>
-      <div class="project-pill">
-        <span class="name">Lead gen app</span>
-        <span class="path">~/claryt-leadgen</span>
-        <span class="status maintenance">Built</span>
       </div>
       <div class="project-pill">
         <span class="name">PracticeQ (EHR)</span>
